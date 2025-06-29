@@ -34,7 +34,6 @@ export function PlantacionesList() {
     isOpen: isDeleteModalOpen,
     closeModal: closeDeleteModal,
     PlantacionesEliminada,
-    handleEliminar
   } = useEliminarPlantaciones();
 
   const handleCrearNuevo = () => {
@@ -42,7 +41,6 @@ export function PlantacionesList() {
   };
 
   const columnas = [
-    { name: "ID", uid: "id", sortable: true },
     { name: "Cultivo", uid: "fk_Cultivo", sortable: true },
     { name: "Era", uid: "fk_Era", sortable: true },
     { name: "Acciones", uid: "acciones" },
@@ -54,12 +52,12 @@ export function PlantacionesList() {
         return <span>{item.id}</span>;
 
       case "fk_Cultivo": {
-        const cultivo = cultivos?.find(c => c.id === item.fkCultivos);
+        const cultivo = cultivos?.find(c => c.id === item.fk_Cultivos);
         return <span>{cultivo ? cultivo.nombre : "Sin asignar"}</span>;
       }
 
       case "fk_Era": {
-        const era = eras?.find(e => e.id === item.fkEras);
+        const era = eras?.find(e => e.id === item.fk_Eras);
         return <span>{era ? `Era ${era.id}` : "Sin asignar"}</span>;
       }
 

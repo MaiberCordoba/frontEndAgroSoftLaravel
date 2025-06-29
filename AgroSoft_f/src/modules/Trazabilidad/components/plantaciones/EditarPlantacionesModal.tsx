@@ -12,8 +12,8 @@ interface EditarPlantacionModalProps {
 }
 
 const EditarPlantacionModal: React.FC<EditarPlantacionModalProps> = ({ plantacion, onClose }) => {
-  const [fk_Cultivo, setFk_Cultivo] = useState<number>(plantacion.fk_Cultivo);
-  const [fk_Era, setFk_Era] = useState<number>(plantacion.fk_Era);
+  const [fk_Cultivos, setFk_Cultivo] = useState<number>(plantacion.fk_Cultivos);
+  const [fk_Eras, setFk_Era] = useState<number>(plantacion.fk_Eras);
 
   const { mutate, isPending } = usePatchPlantaciones();
   const { data: cultivos, isLoading: isLoadingCultivos } = useGetCultivos();
@@ -24,8 +24,8 @@ const EditarPlantacionModal: React.FC<EditarPlantacionModalProps> = ({ plantacio
       {
         id: plantacion.id,
         data: {
-          fk_Cultivo,
-          fk_Era,
+          fk_Cultivos,
+          fk_Eras,
         },
       },
       {
@@ -57,14 +57,14 @@ const EditarPlantacionModal: React.FC<EditarPlantacionModalProps> = ({ plantacio
         <Select
           label="Cultivo"
           placeholder="Selecciona un cultivo"
-          selectedKeys={fk_Cultivo ? [fk_Cultivo.toString()] : []}
+          selectedKeys={fk_Cultivos ? [fk_Cultivos.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Cultivo(Number(selectedKey));
           }}
         >
           {(cultivos || []).map((cultivo) => (
-            <SelectItem key={cultivo.id.toString()}>{cultivo.nombre}</SelectItem>
+            <SelectItem key={cultivo.id?.toString()}>{cultivo.nombre}</SelectItem>
           ))}
         </Select>
       )}
@@ -76,14 +76,14 @@ const EditarPlantacionModal: React.FC<EditarPlantacionModalProps> = ({ plantacio
         <Select
           label="Era"
           placeholder="Selecciona una era"
-          selectedKeys={fk_Era ? [fk_Era.toString()] : []}
+          selectedKeys={fk_Eras ? [fk_Eras.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Era(Number(selectedKey));
           }}
         >
           {(eras || []).map((era) => (
-            <SelectItem key={era.id.toString()}>{`Era ${era.id}`}</SelectItem>
+            <SelectItem key={era.id?.toString()}>{`Era ${era.id}`}</SelectItem>
           ))}
         </Select>
       )}
