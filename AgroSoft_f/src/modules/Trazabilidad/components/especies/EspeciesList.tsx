@@ -37,7 +37,6 @@ export function EspecieList() {
     isOpen: isDeleteModalOpen,
     closeModal: closeDeleteModal,
     EspeciesEliminada,
-    handleEliminar,
   } = useEliminarEspecies();
 
   const handleCrearNuevo = () => {
@@ -61,7 +60,7 @@ export function EspecieList() {
     { name: "Nombre", uid: "nombre", sortable: true },
     { name: "Descripción", uid: "descripcion" },
     { name: "Tiempo de Crecimiento (días)", uid: "tiempoCrecimiento", sortable: true },
-    { name: "Tipo de Especie", uid: "fk_tiposespecie" },
+    { name: "Tipo de Especie", uid: "fk_tiposEspecie" },
     { name: "Acciones", uid: "acciones" },
   ];
   
@@ -73,11 +72,11 @@ export function EspecieList() {
         return <span>{item.descripcion}</span>;
       case "tiempoCrecimiento":
         return <span>{item.tiempoCrecimiento} días</span>;
-      case "fk_tiposespecie":
+      case "fk_tiposEspecie":
         return (
           <span>
             {item.TiposEspecie?.nombre ||
-              (item.fkTiposEspecie && tipoEspecieMap[item.fkTiposEspecie]) ||
+              (item.fk_TiposEspecie && tipoEspecieMap[item.fk_TiposEspecie]) ||
               "Sin Tipo"}
           </span>
         );
