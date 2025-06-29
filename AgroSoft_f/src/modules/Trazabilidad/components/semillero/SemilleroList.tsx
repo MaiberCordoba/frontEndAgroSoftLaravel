@@ -38,7 +38,6 @@ export function SemilleroList() {
     isOpen: isDeleteModalOpen,
     closeModal: closeDeleteModal,
     SemillerosEliminada,
-    handleEliminar,
   } = useEliminarSemilleros();
 
   const handleCrearNuevo = () => {
@@ -65,7 +64,7 @@ export function SemilleroList() {
       case "id":
         return <span>{item.id}</span>;
       case "fk_Especie":
-        const especie = especies?.find((e) => e.id === item.fkEspecies);
+        const especie = especies?.find((e) => e.id === item.fk_Especies);
         return <span>{especie ? especie.nombre : "Cargando..."}</span>;
       case "unidades":
         return <span>{item.unidades}</span>;

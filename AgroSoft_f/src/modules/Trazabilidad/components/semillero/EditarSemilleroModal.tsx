@@ -27,9 +27,7 @@ const EditarSemilleroModal: React.FC<EditarSemilleroModalProps> = ({ semillero, 
           unidades,
           fechaSiembra,
           fechaEstimada,
-          especies: {
-    connect: { id: 2 },
-  },
+          fk_Especies,
         },
       },
       {
