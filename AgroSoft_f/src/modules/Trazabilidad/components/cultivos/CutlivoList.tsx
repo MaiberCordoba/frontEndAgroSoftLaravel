@@ -38,7 +38,6 @@ export function CultivosList() {
     isOpen: isDeleteModalOpen,
     closeModal: closeDeleteModal,
     CultivosEliminada,
-    handleEliminar,
   } = useEliminarCultivos();
 
   const handleCrearNuevo = () => {
@@ -69,7 +68,7 @@ export function CultivosList() {
       case "nombre":
         return <span>{item.nombre}</span>;
       case "fk_especie":
-        const especie = especies?.find((e) => e.id === item.fkEspecies);
+        const especie = especies?.find((e) => e.id === item.fk_Especies);
         return <span>{especie ? especie.nombre : "Cargando..."}</span>;
       case "unidades":
         return <span>{item.unidades}</span>;
