@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import ModalComponent from "@/components/Modal";
-import { usePatchActividades } from "../../hooks/actividades/usePatchActividades"; // Hook para actualizar actividades
+import { usePatchActividades } from "../../hooks/actividades/usePatchActividades";
 import { Actividades } from "../../types";
-import { Input, Textarea, Select, SelectItem } from "@heroui/react";
+import { Input, Select, SelectItem, Textarea } from "@heroui/react";
 import { useGetCultivos } from "@/modules/Trazabilidad/hooks/cultivos/useGetCultivos";
 import { useGetUsers } from "@/modules/Users/hooks/useGetUsers";
 
 interface EditarActividadesModalProps {
-  actividad: Actividades; // La actividad que se está editando
-  onClose: () => void; // Función para cerrar el modal
+  actividad: Actividades;
+  onClose: () => void;
 }
 
 const EditarActividadesModal: React.FC<EditarActividadesModalProps> = ({
@@ -19,27 +19,23 @@ const EditarActividadesModal: React.FC<EditarActividadesModalProps> = ({
   const [descripcion, setDescripcion] = useState<string>(actividad.descripcion);
   const [fecha, setFecha] = useState<string>(actividad.fecha);
   const [estado, setEstado] = useState<"Asignada" | "Completada" | "Cancelada">(
-    actividad.estado
+    actividad.estado as "Asignada" | "Completada" | "Cancelada"
   );
-  const [fkCultivos, setFk_Cultivo] = useState<number | null>(
-    actividad.fkCultivos || null
+  const [fk_Cultivos, setFk_Cultivo] = useState<number | null>(
+    actividad.fk_Cultivos || null
   );
-  const [fkUsuarios, setFk_Usuario] = useState<number | null>(
-    actividad.fkUsuarios || null
+  const [fk_Usuarios, setFk_Usuario] = useState<number | null>(
+    actividad.fk_Usuarios || null
   );
 
   const { data: cultivos, isLoading: isLoadingCultivos } = useGetCultivos();
   const { data: users, isLoading: isLoadingUsers } = useGetUsers();
   const { mutate, isPending } = usePatchActividades();
 
-  // Convertir fecha a formato ISO
-  const fechaISO = new Date(fecha).toISOString();
-
   const handleSubmit = () => {
-    // Verificar que todos los campos estén completos
     if (
-      !fkCultivos ||
-      !fkUsuarios ||
+      !fk_Cultivos ||
+      !fk_Usuarios ||
       !titulo ||
       !descripcion ||
       !fecha ||
@@ -55,10 +51,10 @@ const EditarActividadesModal: React.FC<EditarActividadesModalProps> = ({
         data: {
           titulo,
           descripcion,
-          fecha: fechaISO,
+          fecha,
           estado,
-          fkCultivos,
-          fkUsuarios,
+          fk_Cultivos,
+          fk_Usuarios,
         },
       },
       {
@@ -84,30 +80,31 @@ const EditarActividadesModal: React.FC<EditarActividadesModalProps> = ({
       ]}
     >
       <Input
-        value={titulo}
         label="Título"
         type="text"
+        value={titulo}
         onChange={(e) => setTitulo(e.target.value)}
         required
       />
+
       <Textarea
-        value={descripcion}
         label="Descripción"
+        value={descripcion}
         onChange={(e) => setDescripcion(e.target.value)}
         required
       />
+
       <Input
-        value={fecha}
         label="Fecha"
         type="date"
+        value={fecha}
         onChange={(e) => setFecha(e.target.value)}
         required
       />
 
-      {/* Selector de Estado */}
       <Select
         label="Estado"
-        value={estado}
+        selectedKeys={[estado]}
         onSelectionChange={(keys) => {
           const selectedKey = Array.from(keys)[0] as
             | "Asignada"
@@ -122,40 +119,38 @@ const EditarActividadesModal: React.FC<EditarActividadesModalProps> = ({
         <SelectItem key="Cancelada">Cancelado</SelectItem>
       </Select>
 
-      {/* Selector de Cultivos */}
       {isLoadingCultivos ? (
         <p>Cargando cultivos...</p>
       ) : (
         <Select
           label="Cultivo"
           placeholder="Selecciona un cultivo"
-          selectedKeys={fkCultivos ? [fkCultivos.toString()] : []}
+          selectedKeys={fk_Cultivos ? [fk_Cultivos.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Cultivo(selectedKey ? Number(selectedKey) : null);
           }}
         >
           {(cultivos || []).map((cultivo) => (
-            <SelectItem key={cultivo?.id}>{cultivo.nombre}</SelectItem>
+            <SelectItem key={cultivo.id}>{cultivo.nombre}</SelectItem>
           ))}
         </Select>
       )}
 
-      {/* Selector de Usuarios */}
       {isLoadingUsers ? (
         <p>Cargando usuarios...</p>
       ) : (
         <Select
           label="Usuario"
           placeholder="Selecciona un Usuario"
-          selectedKeys={fkUsuarios ? [fkUsuarios.toString()] : []}
+          selectedKeys={fk_Usuarios ? [fk_Usuarios.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Usuario(selectedKey ? Number(selectedKey) : null);
           }}
         >
           {(users || []).map((usuario) => (
-            <SelectItem key={usuario.identificacion.toString()}>
+            <SelectItem key={usuario.id.toString()}>
               {usuario.nombre}
             </SelectItem>
           ))}

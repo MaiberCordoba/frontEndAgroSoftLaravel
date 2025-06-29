@@ -4,9 +4,9 @@ import { User } from "../Users/types"
 
 export interface Actividades {
     id : number,
-    fkCultivos?: number,
+    fk_Cultivos?: number,
     cultivo?: Cultivos,
-    fkUsuarios? : number,
+    fk_Usuarios? : number,
     usuario? : User,
     titulo : string,
     descripcion : string,
@@ -24,7 +24,7 @@ export interface UsosHerramientas {
 
 export interface Herramientas {
     id : number,
-    fkLotes?: number,
+    fk_Lotes?: number,
     lote? : Lotes ,
     nombre : string,
     descripcion : string,

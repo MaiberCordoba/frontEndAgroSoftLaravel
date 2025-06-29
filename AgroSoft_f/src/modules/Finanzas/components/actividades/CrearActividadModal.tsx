@@ -12,12 +12,12 @@ interface CrearActividadesModalProps {
 export const CrearActividadesModal = ({
   onClose,
 }: CrearActividadesModalProps) => {
-  const [fkCultivos, setFk_Cultivo] = useState<number | null>(null);
-  const [fkUsuarios, setFk_Usuario] = useState<number | null>(null);
+  const [fk_Cultivos, setFk_Cultivo] = useState<number | null>(null);
+  const [fk_Usuarios, setFk_Usuario] = useState<number | null>(null);
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [fecha, setFecha] = useState("");
-  const [estado, setEstado] = useState<"AS" | "CO" | "CA" | "">("");
+  const [estado, setEstado] = useState<"Asignada" | "Completada" | "Cancelada" | "">("");
 
   const { data: cultivos, isLoading: isLoadingCultivos } = useGetCultivos();
   const { data: users, isLoading: isLoadingUsers } = useGetUsers();
@@ -26,10 +26,9 @@ export const CrearActividadesModal = ({
   
 
   const handleSubmit = () => {
-  const fechaISO = new Date(fecha).toISOString();
     if (
-      !fkCultivos ||
-      !fkUsuarios ||
+      !fk_Cultivos ||
+      !fk_Usuarios ||
       !titulo ||
       !descripcion ||
       !fecha ||
@@ -40,7 +39,7 @@ export const CrearActividadesModal = ({
     }
 
     mutate(
-      { fkCultivos, fkUsuarios, titulo, descripcion, fecha: fechaISO, estado },
+      { fk_Cultivos, fk_Usuarios, titulo, descripcion, fecha, estado },
       {
         onSuccess: () => {
           onClose();
@@ -118,7 +117,7 @@ export const CrearActividadesModal = ({
         <Select
           label="Cultivo"
           placeholder="Selecciona un cultivo"
-          selectedKeys={fkCultivos ? [fkCultivos.toString()] : []}
+          selectedKeys={fk_Cultivos ? [fk_Cultivos.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Cultivo(selectedKey ? Number(selectedKey) : null);
@@ -137,14 +136,14 @@ export const CrearActividadesModal = ({
         <Select
           label="Usuario"
           placeholder="Selecciona un Usuario"
-          selectedKeys={fkUsuarios ? [fkUsuarios.toString()] : []}
+          selectedKeys={fk_Usuarios ? [fk_Usuarios.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Usuario(selectedKey ? Number(selectedKey) : null);
           }}
         >
           {(users || []).map((usuario) => (
-            <SelectItem key={usuario.identificacion.toString()}>
+            <SelectItem key={usuario.id.toString()}>
               {usuario.nombre}
             </SelectItem>
           ))}

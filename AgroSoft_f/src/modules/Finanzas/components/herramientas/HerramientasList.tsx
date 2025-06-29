@@ -26,7 +26,7 @@ export function HerramientasList() {
   } = useCrearHerramienta();
 
   const handleCrearNuevo = () => {
-    handleCrear({ id: 0, fkLotes: 0, nombre: "", descripcion: "", unidades: 0 });
+    handleCrear({ id: 0, fk_Lotes: 0, nombre: "", descripcion: "", unidades: 0 });
   };
 
   // Definición de columnas movida aquí
@@ -42,7 +42,7 @@ export function HerramientasList() {
   const renderCell = (item: Herramientas, columnKey: React.Key) => {
     switch (columnKey) {
       case "lote":
-        const lote = lotes?.find((c) => c.id === item.fkLotes);
+        const lote = lotes?.find((c) => c.id === item.fk_Lotes);
         return <span>{lote ? lote.nombre : "No definido"}</span>;
       case "nombre":
         return <span>{item.nombre}</span>;
