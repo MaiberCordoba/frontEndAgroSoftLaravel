@@ -8,30 +8,23 @@ export const usePatchEspecies = () => {
 
   return useMutation<Especies, Error, { id: number; data: Partial<Especies> }>({
     mutationFn: ({ id, data }) => patchEspecies(id, data),
-    onSuccess: (updatedEspecies, variables) => {
-      // Actualiza la caché después de una mutación exitosa
-      queryClient.setQueryData<Especies[]>(['especies'], (oldData) => {
-        if (!oldData) return oldData;
-        return oldData.map((Especies) =>
-            Especies.id === variables.id ? { ...Especies, ...updatedEspecies } : Especies
-        );
-      });
+    onSuccess: () => {
+      // 🔁 Invalida la cache para recargar la lista
+      queryClient.invalidateQueries({ queryKey: ['especies'] });
 
-      // Toast de éxito
+      // ✅ Mensaje de éxito
       addToast({
         title: "Actualización exitosa",
-        description: "la especie se actualizó correctamente",
+        description: "La especie se actualizó correctamente",
         color: "success",
-     
       });
     },
     onError: (error) => {
-      console.error(error)
+      console.error(error);
       addToast({
         title: "Error al actualizar",
         description: "No se pudo actualizar la especie",
         color: "danger",
-       
       });
     }
   });

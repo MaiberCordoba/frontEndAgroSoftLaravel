@@ -14,7 +14,7 @@ const EditarEspecieModal: React.FC<EditarEspecieModalProps> = ({ especie, onClos
   const [nombre, setNombre] = useState<string>(especie.nombre);
   const [descripcion, setDescripcion] = useState<string>(especie.descripcion);
   const [tiempoCrecimiento, settiempocrecimiento] = useState(especie.tiempoCrecimiento);
-  const [fk_TiposEspecie, setFk_TiposEspecie] = useState(0);
+  const [fk_TiposEspecie, setFk_TiposEspecie] = useState(especie.fk_TiposEspecie ?? null);
 
   const { mutate, isPending } = usePatchEspecies();
   const { data: tiposEspecie, isLoading: isLoadingTiposEspecie } = useGetTiposEspecie();
@@ -27,9 +27,7 @@ const EditarEspecieModal: React.FC<EditarEspecieModalProps> = ({ especie, onClos
         nombre,
         descripcion,
         tiempoCrecimiento,
-        tiposEspecie: {
-          connect: { id: fk_TiposEspecie },
-        },
+        fk_TiposEspecie,
       },
     },
     {
