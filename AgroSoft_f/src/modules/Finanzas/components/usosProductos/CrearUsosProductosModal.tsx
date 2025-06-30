@@ -10,8 +10,8 @@ interface CrearUsosProductosModalProps {
 }
 
 export const CrearUsosProductosModal = ({ onClose }: CrearUsosProductosModalProps) => {
-  const [fkInsumos, setFkInsumo] = useState<number | null>(null);
-  const [fkActividades, setFkActividad] = useState<number | null>(null);
+  const [fk_Insumos, setFkInsumo] = useState<number | null>(null);
+  const [fk_Actividades, setFkActividad] = useState<number | null>(null);
   const [cantidadProducto, setCantidadProducto] = useState<number>(0);
 
   const { data: insumos, isLoading: isLoadingInsumos } = usegetInsumos();
@@ -19,13 +19,13 @@ export const CrearUsosProductosModal = ({ onClose }: CrearUsosProductosModalProp
   const { mutate, isPending } = usePostUsoProducto();
 
   const handleSubmit = () => {
-    if (!fkInsumos || !fkActividades || cantidadProducto <= 0) {
+    if (!fk_Insumos || !fk_Actividades || cantidadProducto <= 0) {
       console.log("Por favor, completa todos los campos.");
       return;
     }
 
     mutate(
-      { fkInsumos, fkActividades, cantidadProducto },
+      { fk_Insumos, fk_Actividades, cantidadProducto },
       {
         onSuccess: () => {
           onClose();
@@ -66,7 +66,7 @@ export const CrearUsosProductosModal = ({ onClose }: CrearUsosProductosModalProp
         <Select
           label="Insumo"
           placeholder="Selecciona un insumo"
-          selectedKeys={fkInsumos ? [fkInsumos.toString()] : []}
+          selectedKeys={fk_Insumos ? [fk_Insumos.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFkInsumo(selectedKey ? Number(selectedKey) : null);
@@ -87,7 +87,7 @@ export const CrearUsosProductosModal = ({ onClose }: CrearUsosProductosModalProp
         <Select
           label="Actividad"
           placeholder="Selecciona una actividad"
-          selectedKeys={fkActividades ? [fkActividades.toString()] : []}
+          selectedKeys={fk_Actividades ? [fk_Actividades.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFkActividad(selectedKey ? Number(selectedKey) : null);

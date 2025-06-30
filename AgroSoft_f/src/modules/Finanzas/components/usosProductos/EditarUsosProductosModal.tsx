@@ -13,8 +13,8 @@ interface EditarUsoProductoModalProps {
 
 const EditarUsoProductoModal: React.FC<EditarUsoProductoModalProps> = ({ usoProducto, onClose }) => {
   const [cantidadProducto, setCantidadProducto] = useState<number>(usoProducto.cantidadProducto);
-  const [fkInsumos, setFkInsumo] = useState<number>(usoProducto.fkInsumos|| 0);
-  const [fkActividades, setFkActividad] = useState<number>(usoProducto.fkActividades || 0);
+  const [fk_Insumos, setFkInsumo] = useState<number>(usoProducto.fk_Insumos|| 0);
+  const [fk_Actividades, setFkActividad] = useState<number>(usoProducto.fk_Actividades || 0);
 
   const { data: insumos, isLoading: isLoadingInsumos } = usegetInsumos();
   const { data: actividades, isLoading: isLoadingActividades } = useGetActividades();
@@ -26,8 +26,8 @@ const EditarUsoProductoModal: React.FC<EditarUsoProductoModalProps> = ({ usoProd
         id: usoProducto.id,
         data: {
           cantidadProducto,
-          fkInsumos,
-          fkActividades,
+          fk_Insumos,
+          fk_Actividades,
         },
       },
       {
@@ -65,7 +65,7 @@ const EditarUsoProductoModal: React.FC<EditarUsoProductoModalProps> = ({ usoProd
         <Select
           label="Insumo"
           placeholder="Selecciona un insumo"
-          selectedKeys={[fkInsumos.toString()]}
+          selectedKeys={[fk_Insumos.toString()]}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFkInsumo(Number(selectedKey));
@@ -85,7 +85,7 @@ const EditarUsoProductoModal: React.FC<EditarUsoProductoModalProps> = ({ usoProd
         <Select
           label="Actividad"
           placeholder="Selecciona una actividad"
-          selectedKeys={[fkActividades.toString()]}
+          selectedKeys={[fk_Actividades.toString()]}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFkActividad(Number(selectedKey));

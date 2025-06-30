@@ -28,7 +28,7 @@ export function UsosProductosList() {
   } = useCrearUsosProducto();
 
   const handleCrearNuevo = () => {
-    handleCrear({ id: 0, fkInsumos: 0, fkActividades: 0, cantidadProducto: 0 });
+    handleCrear({ id: 0, fk_Insumos: 0, fk_Actividades: 0, cantidadProducto: 0 });
   };
 
   // Definición de columnas
@@ -43,10 +43,10 @@ export function UsosProductosList() {
   const renderCell = (item: UsosProductos, columnKey: React.Key) => {
     switch (columnKey) {
       case "insumo":
-        const insumo = insumos?.find((c) => c.id === item.fkInsumos);
+        const insumo = insumos?.find((c) => c.id === item.fk_Insumos);
         return <span>{insumo ? insumo.nombre : "No definido"}</span>;
       case "actividad":
-        const actividad = actividades?.find((c) => c.id === item.fkActividades);
+        const actividad = actividades?.find((c) => c.id === item.fk_Actividades);
         return <span>{actividad ? actividad.titulo : "No definido"}</span>;
       case "cantidadProducto":
         return <span>{item.cantidadProducto}</span>;

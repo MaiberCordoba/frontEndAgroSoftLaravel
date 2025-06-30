@@ -40,9 +40,9 @@ export interface Insumos {
 }
 export interface UsosProductos {
     id : number,
-    fkInsumos? : number,
+    fk_Insumos? : number,
     insumo? : Insumos ,
-    fkActividades? : number,
+    fk_Actividades? : number,
     actividad? : Actividades,
     cantidadProducto : number
 }
