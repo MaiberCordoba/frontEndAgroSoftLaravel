@@ -28,7 +28,7 @@ export function DesechosList() {
   } = useCrearDesecho();
 
   const handleCrearNuevo = () => {
-    handleCrear({ id: 0, fkCultivos: 0,fkTiposDesecho: 0,nombre: "", descripcion: ""});
+    handleCrear({ id: 0, fk_Cultivos: 0,fk_TiposDesecho: 0,nombre: "", descripcion: ""});
   };
 
   // Definición de columnas movida aquí
@@ -44,10 +44,10 @@ export function DesechosList() {
   const renderCell = (item: Desechos, columnKey: React.Key) => {
     switch (columnKey) {
       case "cultivo":
-        const cultivos = cultivo?.find((c) => c.id === item.fkCultivos);
+        const cultivos = cultivo?.find((c) => c.id === item.fk_Cultivos);
         return <span>{cultivos ? cultivos.nombre : "No definido"}</span>;
       case "tipoDesecho":
-        const tipoDesecho = tiposDesechos?.find((c) => c.id === item.fkTiposDesecho);
+        const tipoDesecho = tiposDesechos?.find((c) => c.id === item.fk_TiposDesecho);
         return <span>{tipoDesecho ? tipoDesecho.nombre : "No definido"}</span>;
       case "nombre":
         return <span>{item.nombre}</span>;

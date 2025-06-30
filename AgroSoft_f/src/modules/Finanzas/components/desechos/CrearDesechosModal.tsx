@@ -10,8 +10,8 @@ interface CrearDesechosModalProps {
 }
 
 export const CrearDesechosModal = ({ onClose }: CrearDesechosModalProps) => {
-  const [fkCultivos, setFk_Cultivo] = useState<number | null>(null); // Cambiado a número o null
-  const [fkTiposDesecho, setFk_TipoDesecho] = useState<number | null>(null); 
+  const [fk_Cultivos, setFk_Cultivo] = useState<number | null>(null); // Cambiado a número o null
+  const [fk_TiposDesecho, setFk_TipoDesecho] = useState<number | null>(null); 
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
 
@@ -20,13 +20,13 @@ export const CrearDesechosModal = ({ onClose }: CrearDesechosModalProps) => {
   const { mutate, isPending } = usePostDesecho();
 
   const handleSubmit = () => {
-    if (!fkCultivos || !fkTiposDesecho || !nombre || !descripcion) {
+    if (!fk_Cultivos || !fk_TiposDesecho || !nombre || !descripcion) {
       console.log("Por favor, completa todos los campos.");
       return;
     }
 
     mutate(
-      { fkCultivos, fkTiposDesecho, nombre, descripcion },
+      { fk_Cultivos, fk_TiposDesecho, nombre, descripcion },
       {
         onSuccess: () => {
           onClose();
@@ -76,7 +76,7 @@ export const CrearDesechosModal = ({ onClose }: CrearDesechosModalProps) => {
         <Select
           label="Cultivo"
           placeholder="Selecciona un cultivo"
-          selectedKeys={fkCultivos ? [fkCultivos.toString()] : []} // HeroUI espera un array de strings
+          selectedKeys={fk_Cultivos ? [fk_Cultivos.toString()] : []} // HeroUI espera un array de strings
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0]; // HeroUI devuelve un Set
             setFk_Cultivo(selectedKey ? Number(selectedKey) : null); // Actualiza el estado con el nuevo ID
@@ -97,7 +97,7 @@ export const CrearDesechosModal = ({ onClose }: CrearDesechosModalProps) => {
         <Select
           label="Tipo de desecho"
           placeholder="Selecciona un tipo de desecho"
-          selectedKeys={fkTiposDesecho ? [fkTiposDesecho.toString()] : []} // HeroUI espera un array de strings
+          selectedKeys={fk_TiposDesecho ? [fk_TiposDesecho.toString()] : []} // HeroUI espera un array de strings
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0]; // HeroUI devuelve un Set
             setFk_TipoDesecho(selectedKey ? Number(selectedKey) : null); // Actualiza el estado con el nuevo ID

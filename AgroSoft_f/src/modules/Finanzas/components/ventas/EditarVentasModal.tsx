@@ -16,17 +16,16 @@ const EditarVentaModal: React.FC<EditarVentaModalProps> = ({
 }) => {
   const [precioUnitario, setPrecioUnitario] = useState(venta.precioUnitario);
   const [fecha, setFecha] = useState<string>(venta.fecha);
-  const [fkCosechas, setFk_Cosecha] = useState<number | null>(
-    venta.fkCosechas || null
+  const [fk_Cosechas, setFk_Cosecha] = useState<number | null>(
+    venta.fk_Cosechas || null
   );
 
   const { mutate, isPending } = usePatchVentas();
   const { data: cosechas, isLoading: isLoadingCosechas } = useGetCosechas();
 
   // Convertir fecha a formato ISO
-  const fechaISO = new Date(fecha).toISOString();
   const handleSubmit = () => {
-    if (!precioUnitario || !fecha || !fkCosechas) {
+    if (!precioUnitario || !fecha || !fk_Cosechas) {
       console.log("Todos los campos son obligatorios");
       return;
     }
@@ -34,7 +33,7 @@ const EditarVentaModal: React.FC<EditarVentaModalProps> = ({
     mutate(
       {
         id: venta.id,
-        data: { precioUnitario, fecha: fechaISO, fkCosechas },
+        data: { precioUnitario, fecha, fk_Cosechas },
       },
       {
         onSuccess: () => {
@@ -81,7 +80,7 @@ const EditarVentaModal: React.FC<EditarVentaModalProps> = ({
         <Select
           label="Cosecha"
           placeholder="Selecciona la fecha de la cosecha"
-          selectedKeys={fkCosechas ? [fkCosechas.toString()] : []}
+          selectedKeys={fk_Cosechas ? [fk_Cosechas.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Cosecha(selectedKey ? Number(selectedKey) : null);

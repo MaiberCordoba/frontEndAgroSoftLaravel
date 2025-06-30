@@ -9,7 +9,7 @@ interface CrearVentasModalProps {
 }
 
 export const CrearVentasModal = ({ onClose }: CrearVentasModalProps) => {
-  const [fkCosechas, setFk_Cosecha] = useState<number | null>(null); // Cambiado a número o null
+  const [fk_Cosechas, setFk_Cosecha] = useState<number | null>(null); // Cambiado a número o null
   const [precioUnitario, setPrecioUnitario] = useState(0);
   const [fecha, setFecha] = useState("");
 
@@ -18,14 +18,13 @@ export const CrearVentasModal = ({ onClose }: CrearVentasModalProps) => {
 
 
   const handleSubmit = () => {
-    const fechaISO = new Date(fecha).toISOString();
-    if (!fkCosechas || !precioUnitario || !fecha) {
+    if (!fk_Cosechas || !precioUnitario || !fecha) {
       console.log("Por favor, completa todos los campos.");
       return;
     }
 
     mutate(
-      { fkCosechas, precioUnitario, fecha: fechaISO },
+      { fk_Cosechas, precioUnitario, fecha },
       {
         onSuccess: () => {
           onClose();
@@ -74,7 +73,7 @@ export const CrearVentasModal = ({ onClose }: CrearVentasModalProps) => {
         <Select
           label="Cosecha"
           placeholder="Selecciona la fecha en que se cosecho"
-          selectedKeys={fkCosechas ? [fkCosechas.toString()] : []}
+          selectedKeys={fk_Cosechas ? [fk_Cosechas.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Cosecha(selectedKey ? Number(selectedKey) : null);

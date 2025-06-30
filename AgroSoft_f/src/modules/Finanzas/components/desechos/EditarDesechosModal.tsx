@@ -14,8 +14,8 @@ interface EditarDesechoModalProps {
 const EditarDesechoModal: React.FC<EditarDesechoModalProps> = ({ desecho, onClose }) => {
   const [nombre, setNombre] = useState<string>(desecho.nombre);
   const [descripcion, setDescripcion] = useState<string>(desecho.descripcion);
-  const [fkCultivos, setFk_Cultivo] = useState<number>(desecho.fkCultivos || 0);  // Estado para el ID del cultivo
-  const [fkTiposDesecho, setFk_TipoDesecho] = useState<number>(desecho.fkTiposDesecho || 0); // Estado para el ID del tipo de desecho
+  const [fk_Cultivos, setFk_Cultivo] = useState<number>(desecho.fk_Cultivos || 0);  // Estado para el ID del cultivo
+  const [fk_TiposDesecho, setFk_TipoDesecho] = useState<number>(desecho.fk_TiposDesecho || 0); // Estado para el ID del tipo de desecho
 
   const { data: tiposDesechos, isLoading: isLoadingTiposDesechos } = useGetTiposDesechos();  // Obtener los tipos de desechos
   const { data: cultivos, isLoading: isLoadingCultivos } = useGetCultivos();  // Obtener los cultivos
@@ -29,8 +29,8 @@ const EditarDesechoModal: React.FC<EditarDesechoModalProps> = ({ desecho, onClos
         data: {
           nombre,
           descripcion,
-          fkCultivos,  // Envía solo el ID del cultivo
-          fkTiposDesecho,  // Envía solo el ID del tipo de desecho
+          fk_Cultivos,  // Envía solo el ID del cultivo
+          fk_TiposDesecho,  // Envía solo el ID del tipo de desecho
         },
       },
       {
@@ -75,7 +75,7 @@ const EditarDesechoModal: React.FC<EditarDesechoModalProps> = ({ desecho, onClos
         <Select
           label="Cultivo"
           placeholder="Selecciona un cultivo"
-          selectedKeys={[fkCultivos.toString()]}  // HeroUI espera un array de strings
+          selectedKeys={[fk_Cultivos.toString()]}  // HeroUI espera un array de strings
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];  // HeroUI devuelve un Set
             setFk_Cultivo(Number(selectedKey));  // Actualiza el estado con el nuevo ID
@@ -96,7 +96,7 @@ const EditarDesechoModal: React.FC<EditarDesechoModalProps> = ({ desecho, onClos
         <Select
           label="Tipo de Desecho"
           placeholder="Selecciona un tipo de desecho"
-          selectedKeys={[fkTiposDesecho.toString()]}  // HeroUI espera un array de strings
+          selectedKeys={[fk_TiposDesecho.toString()]}  // HeroUI espera un array de strings
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];  // HeroUI devuelve un Set
             setFk_TipoDesecho(Number(selectedKey));  // Actualiza el estado con el nuevo ID

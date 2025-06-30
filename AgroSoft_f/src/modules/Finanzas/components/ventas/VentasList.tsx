@@ -34,7 +34,7 @@ const { data: ventasData } = useQuery<ReporteVentas[]>({
   } = useCrearVenta();
   
   const handleCrearNuevo = () => {
-    handleCrear({ id: 0, fkCosechas: 0, precioUnitario: 0, fecha: "" });
+    handleCrear({ id: 0, fk_Cosechas: 0, precioUnitario: 0, fecha: "" });
   };
 
   const columnas = [
@@ -47,7 +47,7 @@ const { data: ventasData } = useQuery<ReporteVentas[]>({
   const renderCell = (item: Ventas, columnKey: React.Key) => {
     switch (columnKey) {
       case "cosecha":
-        const cosecha = cosechas?.find((c) => c.id === item.fkCosechas);
+        const cosecha = cosechas?.find((c) => c.id === item.fk_Cosechas);
         return <span>{cosecha ? cosecha?.fecha : "No definido"}</span>;
       case "precioUnitario":
         return <span>{item.precioUnitario}</span>;
