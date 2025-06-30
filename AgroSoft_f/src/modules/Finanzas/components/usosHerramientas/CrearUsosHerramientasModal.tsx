@@ -10,21 +10,21 @@ interface CrearUsoHerramientaModalProps {
 }
 
 export const CrearUsoHerramientaModal = ({ onClose }: CrearUsoHerramientaModalProps) => {
-  const [fkHerramientas, setFk_Herramienta] = useState<number | null>(null);
-  const [fkActividades, setFk_Actividad] = useState<number | null>(null);
+  const [fk_Herramientas, setFk_Herramienta] = useState<number | null>(null);
+  const [fk_Actividades, setFk_Actividad] = useState<number | null>(null);
 
   const { data: herramientas, isLoading: isLoadingHerramientas } = useGetHerramientas();
   const { data: actividades, isLoading: isLoadingActividades } = useGetActividades();
   const { mutate, isPending } = usePostUsoHerramienta();
 
   const handleSubmit = () => {
-    if (!fkHerramientas || !fkActividades) {
+    if (!fk_Herramientas || !fk_Actividades) {
       console.log("Por favor, completa todos los campos.");
       return;
     }
 
     mutate(
-      { fkHerramientas, fkActividades },
+      { fk_Herramientas, fk_Actividades },
       {
         onSuccess: () => {
           onClose();
@@ -56,7 +56,7 @@ export const CrearUsoHerramientaModal = ({ onClose }: CrearUsoHerramientaModalPr
         <Select
           label="Herramienta"
           placeholder="Selecciona una herramienta"
-          selectedKeys={fkHerramientas ? [fkHerramientas.toString()] : []}
+          selectedKeys={fk_Herramientas ? [fk_Herramientas.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Herramienta(selectedKey ? Number(selectedKey) : null);
@@ -77,7 +77,7 @@ export const CrearUsoHerramientaModal = ({ onClose }: CrearUsoHerramientaModalPr
         <Select
           label="Actividad"
           placeholder="Selecciona una actividad"
-          selectedKeys={fkActividades ? [fkActividades.toString()] : []}
+          selectedKeys={fk_Actividades ? [fk_Actividades.toString()] : []}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Actividad(selectedKey ? Number(selectedKey) : null);

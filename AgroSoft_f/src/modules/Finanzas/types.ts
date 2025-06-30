@@ -16,9 +16,9 @@ export interface Actividades {
 
 export interface UsosHerramientas {
     id : number,
-    fkHerramientas? : number,
+    fk_Herramientas? : number,
     herramienta?: Herramientas,
-    fkActividades? : number,
+    fk_Actividades? : number,
     actividad? : Actividades
 }
 

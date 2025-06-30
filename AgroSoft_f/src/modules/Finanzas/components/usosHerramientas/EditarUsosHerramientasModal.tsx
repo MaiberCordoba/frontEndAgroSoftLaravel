@@ -12,8 +12,8 @@ interface EditarUsoHerramientaModalProps {
 }
 
 const EditarUsoHerramientaModal: React.FC<EditarUsoHerramientaModalProps> = ({ usoHerramienta, onClose }) => {
-  const [fkHerramientas, setFk_Herramienta] = useState<number>(usoHerramienta.fkHerramientas || 0);
-  const [fkActividades, setFk_Actividad] = useState<number>(usoHerramienta.fkActividades || 0);
+  const [fk_Herramientas, setFk_Herramienta] = useState<number>(usoHerramienta.fk_Herramientas || 0);
+  const [fk_Actividades, setFk_Actividad] = useState<number>(usoHerramienta.fk_Actividades || 0);
 
   const { data: herramientas, isLoading: isLoadingHerramientas } = useGetHerramientas();
   const { data: actividades, isLoading: isLoadingActividades } = useGetActividades();
@@ -24,8 +24,8 @@ const EditarUsoHerramientaModal: React.FC<EditarUsoHerramientaModalProps> = ({ u
       {
         id: usoHerramienta.id,
         data: {
-          fkHerramientas,
-          fkActividades,
+          fk_Herramientas,
+          fk_Actividades,
         },
       },
       {
@@ -57,7 +57,7 @@ const EditarUsoHerramientaModal: React.FC<EditarUsoHerramientaModalProps> = ({ u
         <Select
           label="Herramienta"
           placeholder="Selecciona una herramienta"
-          selectedKeys={[fkHerramientas.toString()]}
+          selectedKeys={[fk_Herramientas.toString()]}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Herramienta(Number(selectedKey));
@@ -76,7 +76,7 @@ const EditarUsoHerramientaModal: React.FC<EditarUsoHerramientaModalProps> = ({ u
         <Select
           label="Actividad"
           placeholder="Selecciona una actividad"
-          selectedKeys={[fkActividades.toString()]}
+          selectedKeys={[fk_Actividades.toString()]}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0];
             setFk_Actividad(Number(selectedKey));

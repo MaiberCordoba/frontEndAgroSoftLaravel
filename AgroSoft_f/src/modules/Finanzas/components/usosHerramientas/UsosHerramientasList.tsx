@@ -27,7 +27,7 @@ export function UsosHerramientasList() {
   } = useCrearUsosHerramienta();
 
   const handleCrearNuevo = () => {
-    handleCrear({ id: 0, fkHerramientas: 0, fkActividades: 0 });
+    handleCrear({ id: 0, fk_Herramientas: 0, fk_Actividades: 0 });
   };
 
   // Definición de columnas
@@ -41,10 +41,10 @@ export function UsosHerramientasList() {
   const renderCell = (item: UsosHerramientas, columnKey: React.Key) => {
     switch (columnKey) {
       case "herramienta":
-        const herramienta = herramientas?.find((c) => c.id === item.fkHerramientas);
+        const herramienta = herramientas?.find((c) => c.id === item.fk_Herramientas);
         return <span>{herramienta ? herramienta.nombre : "No definido"}</span>;
       case "actividad":
-        const actividad = actividades?.find((c) => c.id === item.fkActividades);
+        const actividad = actividades?.find((c) => c.id === item.fk_Actividades);
         return <span>{actividad ? actividad.titulo : "No definido"}</span>;
       case "acciones":
         return (
