@@ -6,8 +6,15 @@ export const getUmbrales = async (): Promise<Umbral[]> => {
   return response.data;
 };
 
-export const postUmbral = async (data: Omit<Umbral, "id">): Promise<Umbral> => {
-  const response = await apiClient.post("umbral", data);
+export const postUmbral = async ({
+  sensorId,
+  valorMinimo,
+  valorMaximo,
+}: Umbral): Promise<Umbral> => {
+  const response = await apiClient.post(`umbral/${sensorId}`, {
+    valor_minimo: valorMinimo,
+    valor_maximo: valorMaximo,
+  });
   return response.data;
 };
 

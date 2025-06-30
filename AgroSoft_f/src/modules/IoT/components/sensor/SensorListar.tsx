@@ -50,23 +50,23 @@ export function SensorLista() {
   const handleCrearNuevo = () => {
     handleCrear({
       id: 0,
-      tipoSensor: "Temperatura", // Valor por defecto
-      datosSensor: 0,
+      tipo_sensor: "Temperatura", // Valor por defecto
+      datos_sensor: 0,
       fecha: new Date().toISOString(),
       loteId: null,
       eraId: null,
     });
   };
 
-  const getSensorLabel = (tipoSensor: string) => {
-    const sensor = SENSOR_TYPES.find(s => s.key === tipoSensor);
-    return sensor ? sensor.label : tipoSensor;
+  const getSensorLabel = (tipo_sensor: string) => {
+    const sensor = SENSOR_TYPES.find(s => s.key === tipo_sensor);
+    return sensor ? sensor.label : tipo_sensor;
   };
 
   const columnas = [
     { name: "Fecha", uid: "fecha", sortable: true },
-    { name: "Tipo de Sensor", uid: "tipoSensor" },
-    { name: "Valor", uid: "datosSensor" },
+    { name: "Tipo de Sensor", uid: "tipo_sensor" },
+    { name: "Valor", uid: "datos_sensor" },
   ];
 
   const handleRowClick = (sensorId: number) => {
@@ -78,10 +78,10 @@ export function SensorLista() {
       switch (columnKey) {
         case "fecha":
           return <span>{new Date(item.fecha).toLocaleString()}</span>;
-        case "tipoSensor":
-          return <span>{getSensorLabel(item.tipoSensor)}</span>;
-        case "datosSensor":
-          return <span>{item.datosSensor}</span>;
+        case "tipo_sensor":
+          return <span>{getSensorLabel(item.tipo_sensor)}</span>;
+        case "datos_sensor":
+          return <span>{item.datos_sensor}</span>;
         default:
           return <span>{String(item[columnKey as keyof Sensor])}</span>;
       }
@@ -109,7 +109,7 @@ export function SensorLista() {
       <TablaReutilizable
         datos={data || []}
         columnas={columnas}
-        claveBusqueda="tipoSensor"
+        claveBusqueda="tipo_sensor"
         placeholderBusqueda="Buscar por tipo"
         renderCell={renderCell}
         onCrearNuevo={handleCrearNuevo}

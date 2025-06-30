@@ -5,29 +5,15 @@ import { Input, Select, SelectItem } from "@heroui/react";
 import { addToast } from "@heroui/toast";
 import { Sensor } from "../../types/sensorTypes";
 import { usePostUmbral } from "../../hooks/umbral/usePostUmbral";
+import apiClient from "@/api/apiClient";
 
 interface CrearUmbralModalProps {
   onClose: () => void;
 }
 
 const fetchSensores = async (): Promise<Sensor[]> => {
-  const res = await fetch("http://localhost:3000/sensores", {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWNhY2lvbiI6MTA4NDMzMTczMSwibm9tYnJlIjoiYWRtaW4gY29yZG9iYSIsImNvcnJlb0VsZWN0cm9uaWNvIjoiYWRtaW5AZ21haWwuY29tIiwiYWRtaW4iOjAsImlhdCI6MTc0Mzk1MzkzMn0.GcG2Pifg7BYswjiHtvaonGwJlbZKvJFS4rSrZEuCzTM`,
-    },
-  });
-  if (!res.ok) throw new Error("Error al obtener los sensores");
-  
-  // Transformar a camelCase si el backend devuelve snake_case
-  const data = await res.json();
-  return data.map((sensor: any) => ({
-    id: sensor.id,
-    tipoSensor: sensor.tipo_sensor || sensor.tipoSensor,
-    datosSensor: sensor.datos_sensor || sensor.datosSensor,
-    fecha: sensor.fecha,
-    loteId: sensor.lote_id || sensor.loteId,
-    eraId: sensor.era_id || sensor.eraId
-  }));
+  const response = await apiClient.get("sensores");
+  return response.data;
 };
 
 export const CrearUmbralModal = ({ onClose }: CrearUmbralModalProps) => {
@@ -119,7 +105,7 @@ export const CrearUmbralModal = ({ onClose }: CrearUmbralModalProps) => {
       >
         {sensores.map((sensor) => (
           <SelectItem key={String(sensor.id)}>
-            {sensor.tipoSensor} (ID {sensor.id})
+            {sensor.tipo_sensor} (ID {sensor.id})
           </SelectItem>
         ))}
       </Select>

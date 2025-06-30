@@ -29,33 +29,32 @@ export function UmbralLista() {
     isOpen: isDeleteModalOpen,
     closeModal: closeDeleteModal,
     umbralEliminado,
-    handleEliminar,
   } = useEliminarUmbral();
 
   const handleCrearNuevo = () => {
     handleCrear({
       id: 0,
-      sensorId: 1, // Actualizado a camelCase
-      valorMinimo: 0, // Actualizado a camelCase
-      valorMaximo: 100, // Actualizado a camelCase
+      sensor_id: 1, // Actualizado a camelCase
+      valor_minimo: 0, // Actualizado a camelCase
+      valor_maximo: 100, // Actualizado a camelCase
     });
   };
 
   const columnas = [
-    { name: "Sensor ID", uid: "sensorId" }, // Actualizado a camelCase
-    { name: "Mínimo", uid: "valorMinimo" }, // Actualizado a camelCase
-    { name: "Máximo", uid: "valorMaximo" }, // Actualizado a camelCase
+    { name: "Sensor ID", uid: "sensor_id" }, // Actualizado a camelCase
+    { name: "Mínimo", uid: "valor_minimo" }, // Actualizado a camelCase
+    { name: "Máximo", uid: "valor_maximo" }, // Actualizado a camelCase
     { name: "Acciones", uid: "acciones" },
   ];
 
   const renderCell = (item: Umbral, columnKey: React.Key) => {
     switch (columnKey) {
-      case "sensorId": // Actualizado a camelCase
-        return <span>{item.sensorId}</span>;
-      case "valorMinimo": // Actualizado a camelCase
-        return <span>{item.valorMinimo}</span>;
-      case "valorMaximo": // Actualizado a camelCase
-        return <span>{item.valorMaximo}</span>;
+      case "sensor_id": // Actualizado a camelCase
+        return <span>{item.sensor_id}</span>;
+      case "valor_minimo": // Actualizado a camelCase
+        return <span>{item.valor_minimo}</span>;
+      case "valor_maximo": // Actualizado a camelCase
+        return <span>{item.valor_maximo}</span>;
       case "acciones":
         return (
           <AccionesTabla
@@ -76,7 +75,7 @@ export function UmbralLista() {
       <TablaReutilizable
         datos={data || []}
         columnas={columnas}
-        claveBusqueda="sensorId" // Actualizado a camelCase
+        claveBusqueda="sensor_id" // Actualizado a camelCase
         placeholderBusqueda="Buscar por Sensor ID"
         renderCell={renderCell}
         onCrearNuevo={handleCrearNuevo}

@@ -5,6 +5,7 @@ import ModalComponent from "@/components/Modal";
 import { Input, Select, SelectItem } from "@heroui/react";
 import { addToast } from "@heroui/toast";
 import { Sensor, SensorType } from "../../types/sensorTypes";
+import apiClient from "@/api/apiClient";
 
 interface Lote {
   id: number;
@@ -30,30 +31,20 @@ interface CrearSensorModalProps {
 }
 
 const fetchLotes = async (): Promise<Lote[]> => {
-  const res = await fetch("http://localhost:3000/lotes", {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWNhY2lvbiI6MTA4NDMzMTczMSwibm9tYnJlIjoiYWRtaW4gY29yZG9iYSIsImNvcnJlb0VsZWN0cm9uaWNvIjoiYWRtaW5AZ21haWwuY29tIiwiYWRtaW4iOjAsImlhdCI6MTc0Mzk1MzkzMn0.GcG2Pifg7BYswjiHtvaonGwJlbZKvJFS4rSrZEuCzTM`,
-    },
-  });
-  if (!res.ok) throw new Error("Error al obtener los lotes");
-  return res.json();
+  const res = await apiClient.get("lotes/");
+    return res.data
 };
 
 const fetchEras = async (): Promise<Era[]> => {
-  const res = await fetch("http://localhost:3000/eras", {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWNhY2lvbiI6MTA4NDMzMTczMSwibm9tYnJlIjoiYWRtaW4gY29yZG9iYSIsImNvcnJlb0VsZWN0cm9uaWNvIjoiYWRtaW5AZ21haWwuY29tIiwiYWRtaW4iOjAsImlhdCI6MTc0Mzk1MzkzMn0.GcG2Pifg7BYswjiHtvaonGwJlbZKvJFS4rSrZEuCzTM`,
-    },
-  });
-  if (!res.ok) throw new Error("Error al obtener las eras");
-  return res.json();
+  const res = await apiClient.get("eras/");
+  return res.data
 };
 
 export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
-  const [tipoSensor, setTipoSensor] = useState<SensorType | null>(null);
-  const [datosSensor, setDatosSensor] = useState<number | null>(null);
-  const [loteId, setLoteId] = useState<number | null>(null);
-  const [eraId, setEraId] = useState<number | null>(null);
+  const [tipo_sensor, settipo_sensor] = useState<SensorType | null>(null);
+  const [datos_sensor, setdatos_sensor] = useState<number | null>(null);
+  const [lote_id, setlote_id] = useState<number | null>(null);
+  const [era_id, setera_id] = useState<number | null>(null);
   const [fecha, setFecha] = useState<string>(new Date().toISOString().split("T")[0]);
 
   const { data: lotes = [] } = useQuery<Lote[]>({
@@ -73,7 +64,7 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
   const { mutate, isPending } = usePostSensor();
 
   const handleSubmit = () => {
-    if (!tipoSensor || datosSensor === null) {
+    if (!tipo_sensor || datos_sensor === null) {
       addToast({
         title: "Error",
         description: "Tipo de sensor y valor del sensor son obligatorios.",
@@ -82,7 +73,7 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
       return;
     }
 
-    if (!tiposValidos.includes(tipoSensor)) {
+    if (!tiposValidos.includes(tipo_sensor)) {
       addToast({
         title: "Error",
         description: "Tipo de sensor inválido. Usa uno de los permitidos.",
@@ -92,8 +83,8 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
     }
 
     // Validación de solo uno: lote o era (no ambos, no ninguno)
-    const tieneSoloLote = !!loteId && !eraId;
-    const tieneSoloEra = !!eraId && !loteId;
+    const tieneSoloLote = !!lote_id && !era_id;
+    const tieneSoloEra = !!era_id && !lote_id;
 
     if (!tieneSoloLote && !tieneSoloEra) {
       addToast({
@@ -104,19 +95,19 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
       return;
     }
 
-    if (sensoresLote.includes(tipoSensor) && !loteId) {
+    if (sensoresLote.includes(tipo_sensor) && !lote_id) {
       addToast({
         title: "Error",
-        description: `El sensor tipo '${tipoSensor}' debe registrarse en un lote.`,
+        description: `El sensor tipo '${tipo_sensor}' debe registrarse en un lote.`,
         color: "danger",
       });
       return;
     }
 
-    if (sensoresEra.includes(tipoSensor) && !eraId) {
+    if (sensoresEra.includes(tipo_sensor) && !era_id) {
       addToast({
         title: "Error",
-        description: `El sensor tipo '${tipoSensor}' debe registrarse en una era.`,
+        description: `El sensor tipo '${tipo_sensor}' debe registrarse en una era.`,
         color: "danger",
       });
       return;
@@ -124,10 +115,10 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
 
     const sensorData: Sensor = {
       id: 0, // El backend ignorará este ID al crear
-      tipoSensor,
-      datosSensor,
-      loteId,
-      eraId,
+      tipo_sensor,
+      datos_sensor,
+      lote_id,
+      era_id,
       fecha,
     };
 
@@ -139,10 +130,10 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
           color: "success",
         });
         onClose();
-        setTipoSensor(null);
-        setDatosSensor(null);
-        setLoteId(null);
-        setEraId(null);
+        settipo_sensor(null);
+        setdatos_sensor(null);
+        setlote_id(null);
+        setera_id(null);
         setFecha(new Date().toISOString().split("T")[0]);
       },
       onError: (error) => {
@@ -172,8 +163,8 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
       <Input
         label="Valor del Sensor"
         type="number"
-        value={datosSensor !== null ? String(datosSensor) : ""}
-        onChange={(e) => setDatosSensor(e.target.value ? Number(e.target.value) : null)}
+        value={datos_sensor !== null ? String(datos_sensor) : ""}
+        onChange={(e) => setdatos_sensor(e.target.value ? Number(e.target.value) : null)}
         required
       />
 
@@ -188,13 +179,13 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
       <Select
         label="Tipo de Sensor"
         placeholder="Selecciona un tipo de sensor"
-        selectedKeys={tipoSensor ? [tipoSensor] : []}
+        selectedKeys={tipo_sensor ? [tipo_sensor] : []}
         onSelectionChange={(keys) => {
           const selected = Array.from(keys)[0] as SensorType;
-          setTipoSensor(selected);
+          settipo_sensor(selected);
           // Resetear ubicación al cambiar tipo
-          setLoteId(null);
-          setEraId(null);
+          setlote_id(null);
+          setera_id(null);
         }}
       >
         {SENSOR_TYPES.map((sensor) => (
@@ -202,15 +193,15 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
         ))}
       </Select>
 
-      {tipoSensor && sensoresLote.includes(tipoSensor) && (
+      {tipo_sensor && sensoresLote.includes(tipo_sensor) && (
         <Select
           label="Lote"
           placeholder="Selecciona un lote"
-          selectedKeys={loteId !== null ? [String(loteId)] : []}
+          selectedKeys={lote_id !== null ? [String(lote_id)] : []}
           onSelectionChange={(keys) => {
             const selected = Number(Array.from(keys)[0]);
-            setLoteId(selected);
-            setEraId(null); // Desactiva era si seleccionas lote
+            setlote_id(selected);
+            setera_id(null); // Desactiva era si seleccionas lote
           }}
         >
           {lotes.map((lote) => (
@@ -219,15 +210,15 @@ export const CrearSensorModal = ({ onClose }: CrearSensorModalProps) => {
         </Select>
       )}
 
-      {tipoSensor && sensoresEra.includes(tipoSensor) && (
+      {tipo_sensor && sensoresEra.includes(tipo_sensor) && (
         <Select
           label="Era"
           placeholder="Selecciona una era"
-          selectedKeys={eraId !== null ? [String(eraId)] : []}
+          selectedKeys={era_id !== null ? [String(era_id)] : []}
           onSelectionChange={(keys) => {
             const selected = Number(Array.from(keys)[0]);
-            setEraId(selected);
-            setLoteId(null); // Desactiva lote si seleccionas era
+            setera_id(selected);
+            setlote_id(null); // Desactiva lote si seleccionas era
           }}
         >
           {eras.map((era) => (

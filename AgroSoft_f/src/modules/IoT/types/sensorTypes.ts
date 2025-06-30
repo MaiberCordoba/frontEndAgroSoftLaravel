@@ -9,11 +9,11 @@ export type SensorType =
 
 export interface Sensor {
   id: number;  
-  tipoSensor: SensorType;         
-  datosSensor: number;        
+  tipo_sensor: SensorType;         
+  datos_sensor: number;        
   fecha: string;               
-  loteId: number | null;
-  eraId: number | null;        
+  lote_id: number | null;
+  era_id: number | null;        
 }
 
 export interface SensorConExtras extends Omit<Sensor, 'tipoSensor'> {
@@ -32,10 +32,10 @@ export interface SensorHistorico {
 
 export interface Umbral {
   id: number;
-  sensorId: number;
-  valorMinimo: number;
-  valorMaximo: number;
-  tipoSensor?: string;
+  sensor_id: number;
+  valor_minimo: number;
+  valor_maximo: number;
+  tipo_sensor?: string;
 }
 
 export interface UmbralResponse extends Umbral {

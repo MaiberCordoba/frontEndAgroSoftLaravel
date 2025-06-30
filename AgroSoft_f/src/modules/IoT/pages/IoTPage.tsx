@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Umbral } from "../types/sensorTypes";
 import ReporteModal from "../components/sensor/ReporteModal";
+import apiClient from "@/api/apiClient";
 
 export default function IoTPages() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function IoTPages() {
   const { data: umbrales = [] } = useQuery<Umbral[]>({
     queryKey: ["umbrales"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3000/umbral");
+      const res = await apiClient.get("umbral");
       return res.data;
     },
   });
@@ -81,13 +82,13 @@ export default function IoTPages() {
           }));
 
           const umbral = umbrales.find((u) =>
-            u.tipoSensor && normalizar(u.tipoSensor) === normalizar(sensor)
+            u.tipo_sensor && normalizar(u.tipo_sensor) === normalizar(sensor)
           );
 
           if (umbral) {
-            if (valor < umbral.valorMinimo || valor > umbral.valorMaximo) {
+            if (valor < umbral.valor_minimo || valor > umbral.valor_maximo) {
               mostrarAlerta(
-                `${sensor.toUpperCase()} fuera de umbral.\nValor actual: ${valor}\nRango permitido: ${umbral.valorMinimo} - ${umbral.valorMaximo}`
+                `${sensor.toUpperCase()} fuera de umbral.\nValor actual: ${valor}\nRango permitido: ${umbral.valor_minimo} - ${umbral.valor_maximo}`
               );
             }
           }

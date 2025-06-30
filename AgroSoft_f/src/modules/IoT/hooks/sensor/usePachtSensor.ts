@@ -8,7 +8,7 @@ export const usePatchSensor = () => {
 
   return useMutation<Sensor, Error, { id: number; data: Partial<Sensor> }>({
     mutationFn: ({ id, data }) => {
-      if (data.lote_id && data.era_id) {
+      if (data.lote_id && data.eraid) {
         throw new Error("No se puede asignar un sensor a un lote y una era al mismo tiempo.");
       }
       if (!data.lote_id && !data.era_id) {

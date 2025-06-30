@@ -1,3 +1,4 @@
+// hooks/usePostUmbral.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postUmbral } from "../../api/umbral";
 import { addToast } from "@heroui/toast";
@@ -8,10 +9,11 @@ interface UsePostUmbralOptions {
   onError?: (error: Error) => void;
 }
 
+
 export const usePostUmbral = (options?: UsePostUmbralOptions) => {
   const queryClient = useQueryClient();
 
-  return useMutation<Umbral, Error, Omit<Umbral, "id">>({
+  return useMutation<Umbral, Error, Umbral>({
     mutationKey: ["crearUmbral"],
     mutationFn: postUmbral,
     onSuccess: (data) => {
