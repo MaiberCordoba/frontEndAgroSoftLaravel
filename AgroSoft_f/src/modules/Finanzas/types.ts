@@ -49,7 +49,7 @@ export interface UsosProductos {
 
 export interface Cosechas {
     id : number,
-    fkCultivos? : number,
+    fk_Cultivos? : number,
     cultivo? : Cultivos,
     unidades : number,
     fecha : string

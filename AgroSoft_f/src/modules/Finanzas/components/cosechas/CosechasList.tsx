@@ -26,7 +26,7 @@ export function CosechasList() {
   } = useCrearCosecha();
 
   const handleCrearNuevo = () => {
-    handleCrear({ id: 0, fkCultivos: 0,unidades: 0, fecha: ""});
+    handleCrear({ id: 0, fk_Cultivos: 0,unidades: 0, fecha: ""});
   };
 
   // Definición de columnas movida aquí
@@ -41,7 +41,7 @@ export function CosechasList() {
   const renderCell = (item: Cosechas, columnKey: React.Key) => {
     switch (columnKey) {
       case "cultivo":
-        const cultivos = cultivo?.find((c) => c.id === item.fkCultivos);
+        const cultivos = cultivo?.find((c) => c.id === item.fk_Cultivos);
         return <span>{cultivos ? cultivos.nombre : "No definido"}</span>;
       case "unidades":
         return <span>{item.unidades}</span>;
