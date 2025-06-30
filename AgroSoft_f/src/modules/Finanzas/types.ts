@@ -57,16 +57,16 @@ export interface Cosechas {
 
 export interface Ventas {
     id : number,
-    fkCosechas? : number,
+    fk_Cosechas? : number,
     cosecha? : Cosechas,
     precioUnitario : number,
     fecha : string
 }
 export interface Desechos {
     id : number,
-    fkCultivos? : number,
+    fk_Cultivos? : number,
     cultivo? : Cultivos,
-    fkTiposDesecho? : number,
+    fk_TiposDesecho? : number,
     tipoDesecho? : TiposDesechos,
     nombre : string,
     descripcion : string
