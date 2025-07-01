@@ -11,8 +11,8 @@ interface EditarUmbralModalProps {
 }
 
 const EditarUmbralModal: React.FC<EditarUmbralModalProps> = ({ umbral, onClose }) => {
-  const [valorMinimo, setValorMinimo] = useState<number>(umbral.valorMinimo);
-  const [valorMaximo, setValorMaximo] = useState<number>(umbral.valorMaximo);
+  const [valorMinimo, setValorMinimo] = useState<number>(umbral.valor_minimo);
+  const [valorMaximo, setValorMaximo] = useState<number>(umbral.valor_maximo);
 
   const { mutate, isPending } = usePatchUmbral();
 
@@ -30,8 +30,8 @@ const EditarUmbralModal: React.FC<EditarUmbralModalProps> = ({ umbral, onClose }
       {
         id: umbral.id,
         data: {
-          valorMinimo,  // Actualizado a camelCase
-          valorMaximo,  // Actualizado a camelCase
+          valor_minimo: valorMinimo,  // Actualizado a snake_case
+          valor_maximo: valorMaximo,  // Actualizado a snake_case
         },
       },
       {
