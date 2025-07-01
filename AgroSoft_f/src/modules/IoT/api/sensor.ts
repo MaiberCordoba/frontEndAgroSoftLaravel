@@ -1,5 +1,5 @@
 import apiClient from "@/api/apiClient";
-import { Sensor } from "../types/sensorTypes";
+import { Sensor, SensorHistorico } from "../types/sensorTypes";
 
 export const get = async (): Promise<Sensor[]> => {
   const response = await apiClient.get("sensores");
@@ -26,18 +26,23 @@ export const getHistorico = async (
   id: string,
   fechaInicio: string,
   fechaFin: string
-): Promise<Array<{
-  id: string;
-  tipo_sensor: string;
-  datos_sensor: number;
-  fecha: string;
-  unidad: string;
-}>> => {
-  const response = await apiClient.get(`sensores/historico/${id}`, {
+): Promise<SensorHistorico[]> => {
+  const response = await apiClient.get(`/sensores/${id}/historico`, {
     params: {
-      fechaInicio,
-      fechaFin
+      fecha_inicio: fechaInicio,
+      fecha_fin: fechaFin
     }
   });
-  return response.data;
+
+  // El backend devuelve { success: true, data: [...] }
+  const responseData = response.data.data || [];
+  
+  // Transformar al tipo SensorHistorico
+  return responseData.map((item: any) => ({
+    id: item.id,
+    tipoSensor: item.tipo_sensor,
+    datosSensor: item.datos_sensor,
+    fecha: item.fecha,
+    unidad: item.unidad
+  }));
 };

@@ -24,8 +24,8 @@ export interface SensorConExtras extends Omit<Sensor, 'tipoSensor'> {
 
 export interface SensorHistorico {
   id: number;
-  tipoSensor: string;
-  datosSensor: number;
+  tipoSensor: string;    // Valor: tipo_sensor del backend
+  datosSensor: number;   // Valor: datos_sensor del backend
   fecha: string;
   unidad: string;
 }

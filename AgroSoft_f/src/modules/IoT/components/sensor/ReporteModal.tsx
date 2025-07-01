@@ -47,7 +47,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
     );
   };
 
-  // Obtener datos para el reporte
+  // Obtener datos para el reporte - VERSIÓN CORREGIDA
   const obtenerDatosReporte = async () => {
     if (!fechaInicio || !fechaFin) {
       setError("Debe seleccionar ambas fechas");
@@ -68,8 +68,12 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
       
       // Obtener datos para cada sensor en paralelo
       const promesas = sensoresSeleccionados.map(async sensorId => {
-        const data = await getHistorico(sensorId, fechaInicio, fechaFin);
-        datos[sensorId] = data;
+        // SOLO getHistorico, sin mapeo adicional
+        datos[sensorId] = await getHistorico(
+          sensorId.toString(), 
+          fechaInicio, 
+          fechaFin
+        );
       });
       
       await Promise.all(promesas);
@@ -83,7 +87,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
     }
   };
 
-  // Generar PDF - Versión optimizada
+  // Generar PDF
   const generarPDF = async () => {
     if (Object.keys(datosReporte).length === 0) {
       setError("Primero debe obtener los datos");
@@ -123,7 +127,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
         
         // Encabezado del sensor
         doc.setFontSize(14);
-        doc.text(`Sensor: ${sensor.tipoSensor} (ID: ${id})`, margin, yPosition);
+        doc.text(`Sensor: ${sensor.tipo_sensor} (ID: ${id})`, margin, yPosition);
         yPosition += 10;
         
         // Crear gráfica temporal
@@ -150,7 +154,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
             labels: datos.map(d => new Date(d.fecha).toLocaleDateString()),
             datasets: [{
               label: "Valor",
-              data: datos.map(d => d.datosSensor),
+              data: datos.map(d => d.datosSensor), // Usar datosSensor
               borderColor: "#8884d8",
               backgroundColor: "rgba(136, 132, 216, 0.1)",
               tension: 0.4,
@@ -172,7 +176,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
         // Convertir a imagen
         await new Promise(resolve => setTimeout(resolve, 500));
         const image = await html2canvas(chartContainer, {
-          scale: 1.5, // Mejor calidad
+          scale: 1.5,
           useCORS: true
         });
         const imgData = image.toDataURL("image/png");
@@ -203,7 +207,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
         const tableData = datos.map((dato, index) => [
           index + 1,
           new Date(dato.fecha).toLocaleString(),
-          dato.datosSensor,
+          dato.datosSensor, // Usar datosSensor
           dato.unidad || ""
         ]);
         
@@ -281,7 +285,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
                   htmlFor={`sensor-${sensor.id}`} 
                   className="ml-2 text-sm cursor-pointer"
                 >
-                  {sensor.tipoSensor} (ID: {sensor.id})
+                  {sensor.tipo_sensor} (ID: {sensor.id})
                 </label>
               </div>
             ))}
@@ -305,7 +309,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
                 return (
                   <div key={sensorId} className="bg-gray-50 p-4 rounded">
                     <h4 className="font-medium mb-2">
-                      {sensor?.tipoSensor} (ID: {id})
+                      {sensor?.tipo_sensor} (ID: {id})
                     </h4>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
@@ -318,7 +322,9 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
                           <YAxis domain={['auto', 'auto']} />
                           <Tooltip 
                             labelFormatter={(value) => new Date(value).toLocaleString()}
+                            formatter={(value) => [value, 'Valor']}
                           />
+                          {/* Cambiado a datosSensor */}
                           <Line 
                             type="monotone" 
                             dataKey="datosSensor" 
@@ -348,7 +354,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
           <Button 
             color="primary" 
             onClick={obtenerDatosReporte}
-            loading={cargando}
+            isLoading={cargando}
             disabled={generandoPDF}
           >
             Obtener Datos
@@ -357,7 +363,7 @@ export default function ReporteModal({ onClose }: ReporteModalProps) {
           <Button 
             color="success" 
             onClick={generarPDF}
-            loading={generandoPDF}
+            isLoading={generandoPDF}
             disabled={Object.keys(datosReporte).length === 0 || cargando}
           >
             Generar PDF
