@@ -29,14 +29,13 @@ export const CrearAfeccionCultivoModal = ({
   // Convertir fecha a formato ISO
 
   const handleSubmit = () => {
-    const fechaISO = new Date(fechaEncuentro).toISOString();
     if (!fk_Plantaciones || !fk_Plagas || !estado || !fechaEncuentro) {
       console.log("Por favor, completa todos los campos.");
       return;
     }
 
     mutate(
-      { fk_Plantaciones, fk_Plagas, estado, fechaEncuentro: fechaISO },
+      { fk_Plantaciones, fk_Plagas, estado, fechaEncuentro },
       {
         onSuccess: () => {
           onClose();

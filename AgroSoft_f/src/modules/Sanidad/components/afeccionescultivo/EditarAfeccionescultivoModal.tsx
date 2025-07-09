@@ -46,7 +46,6 @@ const EditarAfeccionCultivoModal: React.FC<EditarAfeccionCultivoModalProps> = ({
       console.log("Fecha inválida.");
       return;
     }
-    const fechaISO = fechaDate.toISOString();
 
     mutate(
       {
@@ -54,7 +53,7 @@ const EditarAfeccionCultivoModal: React.FC<EditarAfeccionCultivoModalProps> = ({
         data: {
           fk_Plagas,
           estado,
-          fechaEncuentro: fechaISO,
+          fechaEncuentro,
         },
       },
       {

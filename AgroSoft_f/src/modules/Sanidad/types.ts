@@ -72,10 +72,10 @@ export enum EstadoAfeccion {
 
 export interface AfeccionesCultivo {
   id: number;
-  fkPlantaciones: number;
-  plagas: Afecciones;
-  plantaciones: Plantaciones;
-  fkPlagas: number;
+  fk_Plantaciones: number;
+  plaga: Afecciones;
+  plantacion: Plantaciones;
+  fk_Plagas: number;
   fechaEncuentro: string;
   estado: EstadoAfeccion;
 }
