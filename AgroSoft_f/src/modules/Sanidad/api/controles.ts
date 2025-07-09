@@ -15,7 +15,7 @@ export const patchControles = async (
   id: number,
   data: Partial<Controles>
 ): Promise<Controles> => {
-  const response = await apiClient.put<Controles>(`controles/${id}/`, data);
+  const response = await apiClient.patch<Controles>(`controles/${id}/`, data);
   return response.data;
 };
 

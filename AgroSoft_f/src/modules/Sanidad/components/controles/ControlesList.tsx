@@ -39,8 +39,8 @@ export function ControlesList() {
   const handleCrearNuevo = () => {
     handleCrear({
       id: 0,
-      fk_Afeccion: 0,
-      tiposControl: 0,
+      fk_Afecciones: 0,
+      fk_TiposControl: 0,
       fechaControl: "",
       descripcion: "",
     });
@@ -61,9 +61,9 @@ export function ControlesList() {
       case "descripcion":
         return <span>{item.descripcion}</span>;
       case "fk_Afeccion":
-        return <span>{item.afecciones?.plagas?.nombre || "No definido"}</span>;
+        return <span>{item.afeccion?.plaga?.nombre || "No definido"}</span>;
       case "fk_TipoControl":
-        return <span>{item.tiposControl?.nombre || "No definido"}</span>;
+        return <span>{item.tipo_control?.nombre || "No definido"}</span>;
       case "acciones":
         return (
           <AccionesTabla
@@ -78,8 +78,8 @@ export function ControlesList() {
 
   const generarReporte = () => {
     const datos = (data || []).map((item: Controles) => {
-      const afeccion = item.afecciones?.plagas?.nombre || "No definido";
-      const tipoControl = item.tiposControl?.nombre || "No definido";
+      const afeccion = item.afecciones?.plaga?.nombre || "No definido";
+      const tipoControl = item.tipo_control?.nombre || "No definido";
 
       return {
         fechaControl: item.fechaControl,

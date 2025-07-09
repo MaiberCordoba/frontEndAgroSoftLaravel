@@ -49,9 +49,9 @@ export interface Controles {
   id: number;
   fechaControl: string;
   descripcion: string;
-  afecciones: AfeccionesCultivo;
-  fk_Afeccion: number;
-  fk_Afecciones: {
+  afeccion: AfeccionesCultivo;
+  fk_Afecciones: number;
+  afecciones: {
     id: 20;
     fechaEncuentro: "2025-04-08T05:00:00.000Z";
     estado: "EnControl";
@@ -60,8 +60,8 @@ export interface Controles {
       nombre: "Mosca blanca";
     };
   };
-  fk_TipoControl: number;
-  tiposControl: TipoControl;
+  fk_TiposControl: number;
+  tipo_control: TipoControl;
 }
 
 export enum EstadoAfeccion {
